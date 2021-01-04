@@ -1,0 +1,214 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Hani Massinissa Code</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Hani Massinissa</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="#" class="active">Code</a></li>
+					
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+                        
+						<div class="inner">
+                            <h1 class="major">Car Neat     </h1>	<!-- titre du projet -->
+                            
+                            <pre><code>
+                                import pygame, sys
+                                from pygame.locals import*
+                                from math import sin, radians, cos,pi
+                                pygame.init()
+                                
+                                class automobile:
+                                def __init__(self):
+                                    self.position_de_lauto_x=100
+                                    self.position_de_lauto_y=100
+                                    self.position_initial_de_lauto_x=100
+                                    self.position_initial_de_lauto_y=100
+                                    self.angle_de_lauto=180
+                                    self.vitesse_de_lauto_fois_une_seconde=0
+                                    self.vitesse_de_freinage=0.01  #pourcentage
+                                    self.vitesse_maximum=pi/2
+                                    self.pointage=0
+                                    self.position_du_dernier_point_x=-3424315143 #valeur non realiste
+                                    self.position_du_dernier_point_y=-42352345423 #valeur non realiste
+                                    #Distance par rapport au mur 
+                                    self.distance_1=1
+                                    self.distance_2=1
+                                    self.distance_3=1
+                                    self.angle_1=0
+                                    self.angle_2=-315
+                                    self.angle_3=-45
+                                
+                                def run():
+                                        #couleur 
+                                        '''Gris = (100, 100, 100)
+                                        Bleu_Marin = ( 60, 60, 100)
+                                        Rouge = (255, 0, 0)
+                                        Jaunne = (255, 255, 0)
+                                        Orange = (255, 128, 0)
+                                        Mauve = (255, 0, 255)
+                                        Cyan = ( 0, 255, 255)
+                                        Noir=(0,0,0)'''
+                                        Blanc = (255, 255, 255)
+                                        Vert = ( 0, 255, 0)
+                                        Bleu = ( 0, 0, 255)
+                                
+                                        #informations utiles
+                                        hauteur=600
+                                        largeur=600
+                                
+                                        #fenetre 
+                                        Surface = pygame.display.set_mode((largeur, hauteur), 0, 32)
+                                        pygame.display.set_caption('Jeu simple - automobile')
+                                        map_1 = pygame.image.load('map_1.png')
+                                        Surface.blit(map_1,(0,0))
+                                
+                                        #valeur de départ pour les boucles 
+                                        auto=automobile()
+                                        couleur_de_la_mort=(236, 10, 87, 255)
+                                        couleur_point=(50, 115, 161, 255)
+                                        rester=True
+                                        while rester:
+                                            for event in pygame.event.get():
+                                                if event.type == QUIT:
+                                                    pygame.quit()
+                                                    sys.exit()
+                                                
+                                            touche_pressee=pygame.key.get_pressed()
+                                
+                                            if touche_pressee[pygame.K_DOWN]:
+                                                auto.vitesse_de_lauto_fois_une_seconde+=1/100
+                                                
+                                            if touche_pressee[pygame.K_UP]:
+                                                auto.vitesse_de_lauto_fois_une_seconde+=-1/100
+                                
+                                            if touche_pressee[pygame.K_RIGHT]:
+                                                auto.angle_de_lauto+=1.5/1 
+                                        
+                                            if touche_pressee[pygame.K_LEFT]:
+                                                auto.angle_de_lauto+=-1.5/1
+                                
+                                            if not touche_pressee[pygame.K_LEFT] and not touche_pressee[pygame.K_RIGHT] and not touche_pressee[pygame.K_UP] and not touche_pressee[pygame.K_DOWN]:
+                                                if auto.vitesse_de_lauto_fois_une_seconde>0:
+                                                    auto.vitesse_de_lauto_fois_une_seconde+=-auto.vitesse_de_freinage*abs(auto.vitesse_de_lauto_fois_une_seconde)
+                                
+                                                elif auto.vitesse_de_lauto_fois_une_seconde < 0:
+                                                    auto.vitesse_de_lauto_fois_une_seconde+=auto.vitesse_de_freinage*abs(auto.vitesse_de_lauto_fois_une_seconde)
+                                
+                                            if abs(auto.vitesse_de_lauto_fois_une_seconde)>auto.vitesse_maximum:
+                                                auto.vitesse_de_lauto_fois_une_seconde=auto.vitesse_maximum*auto.vitesse_de_lauto_fois_une_seconde/abs(auto.vitesse_de_lauto_fois_une_seconde)
+                                
+                                            auto.position_de_lauto_x+=+auto.vitesse_de_lauto_fois_une_seconde*cos(auto.angle_de_lauto*((2*pi)/360))
+                                            auto.position_de_lauto_y+=+auto.vitesse_de_lauto_fois_une_seconde*sin(auto.angle_de_lauto*((2*pi)/360))                     
+                                            Surface.blit(map_1,(0,0))
+                                            pygame.draw.rect(Surface, Vert, (auto.position_de_lauto_x,auto.position_de_lauto_y,5,5))
+                                
+                                            #initialise la distance puis determine la distance reel par rapport au mur 
+                                            auto.distance_1=1
+                                            auto.distance_2=1
+                                            auto.distance_3=1
+                                
+                                            while Surface.get_at((int(auto.position_de_lauto_x+auto.distance_1*auto.vitesse_de_lauto_fois_une_seconde*(cos(auto.angle_1*((2*pi)/360)+(auto.angle_de_lauto)*((2*pi)/360)))),int(auto.position_de_lauto_y+auto.distance_1*auto.vitesse_de_lauto_fois_une_seconde*(sin(auto.angle_1*((2*pi)/360)+auto.angle_de_lauto*((2*pi)/360))))))!=couleur_de_la_mort and abs(auto.vitesse_de_lauto_fois_une_seconde) > 0 :
+                                                auto.distance_1+=.5
+                                            while Surface.get_at((int(auto.position_de_lauto_x+auto.distance_2*auto.vitesse_de_lauto_fois_une_seconde*(cos(auto.angle_2*((2*pi)/360)+(auto.angle_de_lauto)*((2*pi)/360)))),int(auto.position_de_lauto_y+auto.distance_2*auto.vitesse_de_lauto_fois_une_seconde*(sin(auto.angle_2*((2*pi)/360)+auto.angle_de_lauto*((2*pi)/360))))))!=couleur_de_la_mort and abs(auto.vitesse_de_lauto_fois_une_seconde) > 0 :
+                                                auto.distance_2+=.5					
+                                            while Surface.get_at((int(auto.position_de_lauto_x+auto.distance_3*auto.vitesse_de_lauto_fois_une_seconde*(cos(auto.angle_3*((2*pi)/360)+(auto.angle_de_lauto)*((2*pi)/360)))),int(auto.position_de_lauto_y+auto.distance_3*auto.vitesse_de_lauto_fois_une_seconde*(sin(auto.angle_3*((2*pi)/360)+auto.angle_de_lauto*((2*pi)/360))))))!=couleur_de_la_mort and abs(auto.vitesse_de_lauto_fois_une_seconde) > 0 :
+                                                auto.distance_3+=.5
+                                          
+                                            #facteur de correction 
+                                            auto.distance_1-=.5
+                                            auto.distance_2-=.5
+                                            auto.distance_3-=.5
+                                
+                                            #dessin des lignes
+                                            pygame.draw.line(Surface,Blanc,(auto.position_de_lauto_x,auto.position_de_lauto_y),((int(auto.position_de_lauto_x+auto.distance_1*auto.vitesse_de_lauto_fois_une_seconde*(cos(auto.angle_1*((2*pi)/360)+(auto.angle_de_lauto)*((2*pi)/360)))),int(auto.position_de_lauto_y+auto.distance_1*auto.vitesse_de_lauto_fois_une_seconde*(sin(auto.angle_1*((2*pi)/360)+auto.angle_de_lauto*((2*pi)/360)))))),1)
+                                            pygame.draw.line(Surface,Blanc,(auto.position_de_lauto_x,auto.position_de_lauto_y),((int(auto.position_de_lauto_x+auto.distance_2*auto.vitesse_de_lauto_fois_une_seconde*(cos(auto.angle_2*((2*pi)/360)+(auto.angle_de_lauto)*((2*pi)/360)))),int(auto.position_de_lauto_y+auto.distance_2*auto.vitesse_de_lauto_fois_une_seconde*(sin(auto.angle_2*((2*pi)/360)+auto.angle_de_lauto*((2*pi)/360)))))),1)
+                                            pygame.draw.line(Surface,Blanc,(auto.position_de_lauto_x,auto.position_de_lauto_y),((int(auto.position_de_lauto_x+auto.distance_3*auto.vitesse_de_lauto_fois_une_seconde*(cos(auto.angle_3*((2*pi)/360)+(auto.angle_de_lauto)*((2*pi)/360)))),int(auto.position_de_lauto_y+auto.distance_3*auto.vitesse_de_lauto_fois_une_seconde*(sin(auto.angle_3*((2*pi)/360)+auto.angle_de_lauto*((2*pi)/360)))))),1)
+                                            
+                                            if Surface.get_at((int(auto.position_de_lauto_x+5),int(auto.position_de_lauto_y+5)))==couleur_de_la_mort or Surface.get_at((int(auto.position_de_lauto_x-1),int(auto.position_de_lauto_y+5)))==couleur_de_la_mort or Surface.get_at((int(auto.position_de_lauto_x+5),int(auto.position_de_lauto_y-1)))==couleur_de_la_mort or Surface.get_at((int(auto.position_de_lauto_x-1),int(auto.position_de_lauto_y-1)))==couleur_de_la_mort:
+                                                print('mort')
+                                                rester=False
+                                
+                                            if Surface.get_at((int(auto.position_de_lauto_x+5),int(auto.position_de_lauto_y+5)))==couleur_point or Surface.get_at((int(auto.position_de_lauto_x-1),int(auto.position_de_lauto_y+5)))==couleur_point or Surface.get_at((int(auto.position_de_lauto_x+5),int(auto.position_de_lauto_y-1)))==couleur_point or Surface.get_at((int(auto.position_de_lauto_x-1),int(auto.position_de_lauto_y-1)))==couleur_point:
+                                                if auto.position_du_dernier_point_x!=auto.position_de_lauto_x or auto.position_de_lauto_y!= auto.position_du_dernier_point_y:
+                                                    #print('point')
+                                                    auto.pointage+=-1*auto.vitesse_de_lauto_fois_une_seconde
+                                                    auto.position_du_dernier_point_x= auto.position_de_lauto_x
+                                                    auto.position_du_dernier_point_y= auto.position_de_lauto_y
+                                                if auto.position_initial_de_lauto_x==auto.position_du_dernier_point_x and auto.position_initial_de_lauto_y==auto.position_du_dernier_point_y and abs(auto.vitesse_de_lauto_fois_une_seconde)>0:
+                                                    auto.pointage+=-10*auto.vitesse_de_lauto_fois_une_seconde
+                                                    print('on a fait un tour au point precis ==>point bonus<== ')
+                                
+                                            font=pygame.font.Font(None,40)
+                                            texte_de_la_victoire=font.render("Score "+str(int(auto.pointage)),False,Bleu)
+                                            Surface.blit(texte_de_la_victoire,(0,0))        
+                                            pygame.display.update() 
+                                
+                                while True:  
+                                run()
+                                
+                                
+                                
+                                
+                                    
+                                    </code></pre>
+							<span class="image fit"><img src="images/pic04.jpg" alt="" /></span>
+                            <a href="index.html#one" class="button">retour à la page précédente </a>
+							<section id="main" class="wrapper">
+                                
+								<div class="inner">
+								
+		
+									<!-- Text -->
+										<section>
+								<!-- code pour le projet -->
+											
+										</section>
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer" class="wrapper alt">
+				<div class="inner">
+					<ul class="menu">
+						<li>&copy; Massinissa. All rights reserved.</li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
